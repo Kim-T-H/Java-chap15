@@ -1,0 +1,87 @@
+=============InputStreamEx1.java===============
+package chap15;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+/*
+ * IO 스트림:데이터의 이동통로, 단방향(입력,출력),지연(버퍼가 존재한다.)
+ * 
+ * 입력
+ * 		바이트: InputStream=> 1바이트단위 읽음
+ * 		문자형: Reader	=>2바이트 단위 읽음
+ * 
+ * 		바이트=>문자형
+ * 				InputStreamReader: Reader 의 하위 클래스
+ * 
+ * 출력
+ * 		바이트:OutPutStream =>1바이트단위 출력
+ * 		문자형: Writer =>2바이트단위 출력
+ * 		바이트=>문자형
+ * 		OutputStreamWriter : Writer의 하위 클래스
+ * 
+ * 자바에서 제공되는 표준 입출력 객체
+ * 
+ * 	표준입력: InputStream System.in=>키보드에서 입력
+ * 	표준출력: PrintStream System.out => 콘솔(화면)으로 데이터 출력
+ * 	표준오류: PrintStream System.err => 콘솔(화면)으로 데이터 출력
+ */
+
+public class InputStreamEx1 {
+
+	public static void main(String[] args) throws IOException{
+		InputStream in =System.in;
+		int data=0;
+		while((data=in.read())!=-1) {
+			System.out.print((char)data);
+		}
+		
+
+	}
+
+}
+=============ObjectInputStreamEx1.java===============
+package chap15;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+public class ObjectInputStreamEx1 {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException{
+		ObjectInputStream ois = new ObjectInputStream
+					(new FileInputStream("object.ser"));	//objcet.ser 파일에서 객체한개를 읽음. objcet타입으로 전달
+		Customer c1 =(Customer)ois.readObject();		//customer 타입으로 형변환
+		Customer c2 =(Customer)ois.readObject();
+		
+		System.out.println("복원된 고객1:"+c1);
+		System.out.println("복원된 고객2:"+c2);
+	}
+
+}
+=============ObjectInputStreamEx2.java===============
+package chap15;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+/*
+ * 상속관련 직렬화 예제. 파일에서 객체를 읽어 복원하기.
+ */
+public class ObjectInputStreamEx2 {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException{
+		ObjectInputStream ois = new ObjectInputStream
+				(new FileInputStream("objcet.ser"));
+		Object c1 =ois.readObject();		//object 타입으로 불러옴 상속관계
+		Object c2 =ois.readObject();
+		
+		System.out.println("복원된 사용자1:"+c1);
+		System.out.println("복원된 사용자1:"+c2);
+		
+
+	}
+
+}
